@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}
+    首页
+{% endblock %}
+
+{% block mycss %}
+    <style>
+        .book {
+            height: 100px;
+            line-height: 100px;
+            background: lightcyan;
+            color: rgba(29, 52, 3, 1);
+            border-bottom: 1px solid gray;
+        }
+
+        .book h4 span {
+            font-size: 12px;
+            color: green;
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% for book in pagination.items %}
+        <div class="book">
+            <h4>{{ book.title }} <span>{{ book.author }}</span></h4>
+            <p>{{ book.desc }}
+                <button class="btn btn-success" tag="{{ book.id }}">加入购物车</button>
+            </p>
+        </div>
+    {% endfor %}
+    <div>
+        <a href="{{ url_for('shop.index') }}?page={% if pagination.has_prev %}{{ pagination.prev_num }}{% else %}1{% endif %}">上一页</a>
+        {% for page in range(0,pagination.pages) %}
+            <a href="{{ url_for('shop.index') }}?page={{ page + 1 }}">{{ page + 1 }}</a>
+        {% endfor %}
+        <a href="{{ url_for('shop.index') }}?page={% if pagination.has_next %}{{ pagination.next_num }}{% else %}{{ pagination.pages }}{% endif %}">下一页</a>
+    </div>
+{% endblock %}
+
+
+{% block myjs %}
+    <script>
+        $('.btn-success').click(function () {
+            var bookid = $(this).attr('tag')
+            $.getJSON("{{ url_for('shop.addCart') }}", {bookid: bookid}, function (data) {
+                console.log(data)
+                if (data.status == 201) {
+                    alert('图书添加成功！')
+                } else if (data.status == 403) {
+                    window.location.href = '{{ url_for('shop.login') }}'
+                } else {
+                    alert('添加失败，重新添加！')
+                }
+            })
+        });
+
+    </script>
+{% endblock %}

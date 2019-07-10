@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}
+    搜索
+{% endblock %}
+{% block mycss %}
+    <style>
+        .book {
+            height: 100px;
+            line-height: 100px;
+            background: lightcyan;
+            color: rgba(29, 52, 3, 1);
+            border-bottom: 1px solid gray;
+        }
+
+        .book h4 span {
+            font-size: 12px;
+            color: green;
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% for book in books %}
+        <div class="book">
+            <h4>{{ book.title }} <span>{{ book.author }}</span></h4>
+            <p>{{ book.desc }}
+                <button class="btn btn-success" tag="{{ book.id }}">加入购物车</button>
+            </p>
+        </div>
+    {% endfor %}
+{% endblock %}

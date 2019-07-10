@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}
+    用户中心
+{% endblock %}
+
+{% block mycss %}
+    <style>
+        #pic img{
+            width: 80px;
+            height: 80px;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h4>用户信息如下:</h4>
+    <div>
+        <form action="{{ url_for('shop.center',name=user.username) }}" method="post" enctype="multipart/form-data">
+            <p id="pic">
+                <img src="{{ url_for('static',filename=user.icon) }}" alt="">
+                <br>
+                <input type="file" name="icon" value="修改头像">
+            </p>
+            <p>
+                <input type="text" value="{{ user.username }}" name="username" disabled="disabled">
+            </p>
+            <p>
+                <input type="submit" value="提交更新">
+            </p>
+        </form>
+    </div>
+{% endblock %}

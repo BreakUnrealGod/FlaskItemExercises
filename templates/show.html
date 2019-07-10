@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}
+    购物车
+{% endblock %}
+
+{% block mycss %}
+    <style>
+        td {
+            border-bottom: 1px solid gray;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h3>{{ user.username }}的购物车商品是:</h3>
+    <div>
+        <table width="50%">
+            <tr>
+                <th>序号</th>
+                <th>商品</th>
+                <th>数量</th>
+            </tr>
+            {% for book in user.books %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>
+                        {% for cart in carts %}
+                            {% if cart.bookid == book.id %}
+                                {{ cart.numbers }}
+                            {% endif %}
+                        {% endfor %}
+
+
+                    </td>
+                </tr>
+
+            {% endfor %}
+        </table>
+
+    </div>
+{% endblock %}
